@@ -47,8 +47,8 @@ export class WebHID implements Transport {
      * @param device WebHID device to use
      * @param reportId Report ID to use
      */
-    constructor(private device: HIDDevice, private reportId = REPORT_ID) {
-        this.device = device;
+    constructor(private device: HIDDevice) {
+        reportId = REPORT_ID;
     }
 
     /**
@@ -56,7 +56,7 @@ export class WebHID implements Transport {
      * @returns Promise
      */
     public async open(): Promise<void> {
-        return;
+        await this.device.open();
     }
 
     /**
