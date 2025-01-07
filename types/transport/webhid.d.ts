@@ -31,14 +31,13 @@ interface HIDCollectionInfo {
  */
 export declare class WebHID implements Transport {
     private device;
-    private reportId;
     readonly packetSize = 64;
     /**
      * WebHID constructor
      * @param device WebHID device to use
      * @param reportId Report ID to use
      */
-    constructor(device: HIDDevice, reportId?: number);
+    constructor(device: HIDDevice);
     /**
      * Open device
      * @returns Promise

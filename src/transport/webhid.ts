@@ -34,7 +34,7 @@ interface HIDCollectionInfo {
 /**
  * @hidden
  */
-const REPORT_ID = 0x90;
+const REPORTID = 0x90;
 
 /**
  * WebHID Transport class
@@ -47,8 +47,7 @@ export class WebHID implements Transport {
      * @param device WebHID device to use
      * @param reportId Report ID to use
      */
-    constructor(private device: HIDDevice, private reportId = REPORT_ID) {
-        this.device = device;
+    constructor(private device: HIDDevice) {
     }
 
     /**
@@ -56,7 +55,7 @@ export class WebHID implements Transport {
      * @returns Promise
      */
     public async open(): Promise<void> {
-        return;
+        await this.device.open();
     }
 
     /**
@@ -88,6 +87,6 @@ export class WebHID implements Transport {
      */
     public async write(data: BufferSource): Promise<void> {
         const buffer = new Uint8Array(data as ArrayBuffer);
-        await this.device.sendReport(this.reportId, buffer);
+        await this.device.sendReport(REPORTID, buffer);
     }
 }
