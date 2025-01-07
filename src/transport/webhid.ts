@@ -56,7 +56,7 @@ export class WebHID implements Transport {
      * @returns Promise
      */
     public async open(): Promise<void> {
-        await this.device.open();
+        return;
     }
 
     /**
