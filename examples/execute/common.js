@@ -152,7 +152,7 @@ const calculateHash = async (processor, data) => {
 };
 
 module.exports = {
-    DAPLINK_VENDOR: 0xD28,
+    DAPLINK_VENDOR: 0x1209,,
     selectDevice,
     nodeHash,
     deviceHash

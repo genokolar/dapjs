@@ -24,9 +24,9 @@ Decide on a transport layer to use (see below) and refer to the [examples folder
 
 The web examples can be seen running at:
 
-https://armmbed.github.io/dapjs/examples/index.html
+https://genokolar.github.io/dapjs/examples/index.html
 
-Refer to the [DAPjs API Documentation](https://armmbed.github.io/dapjs/) for more information.
+Refer to the [DAPjs API Documentation](https://genokolar.github.io/dapjs/docs/index.html) for more information.
 
 ## Supported Systems
 
