@@ -128,13 +128,12 @@
 
             try {
                 const device = await navigator.hid.requestDevice({
-                    filters: [{vendorId: 0x4366}]
+                    filters: [{vendorId: 0x4366, usagePage: 0xff00, usage: 0x0002}]
                 });
-                device.open();
                 device.oninputreport = event => {
                     console.log(event.data);
                 }
-                await update(device);
+                await update(device[0]);
             } catch (error) {
                 statusEl.style.visibility = "hidden";
                 setStatus(error);
