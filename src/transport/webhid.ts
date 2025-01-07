@@ -1,5 +1,21 @@
 import { Transport } from './';
 
+interface HIDDevice extends EventTarget {
+    oninputreport: ((this: HIDDevice, ev: Event) => any) | null;
+    readonly opened: boolean;
+    readonly vendorId: number;
+    readonly productId: number;
+    readonly productName: string;
+    readonly collections: ReadonlyArray<HIDCollectionInfo>;
+
+    open(): Promise<void>;
+    close(): Promise<void>;
+    forget(): Promise<void>;
+    sendReport(reportId: number, data: ArrayBufferView | ArrayBuffer): Promise<void>;
+    sendFeatureReport(reportId: number, data: ArrayBufferView | ArrayBuffer): Promise<void>;
+    receiveFeatureReport(reportId: number): Promise<DataView>;
+}
+
 /**
  * @hidden
  */
