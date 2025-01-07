@@ -40,7 +40,7 @@ const REPORTID = 0x90;
  * WebHID Transport class
  */
 export class WebHID implements Transport {
-    public readonly packetSize = 64;
+    public readonly packetSize = 63;
 
     /**
      * WebHID constructor
@@ -48,6 +48,20 @@ export class WebHID implements Transport {
      * @param reportId Report ID to use
      */
     constructor(private device: HIDDevice) {
+    }
+
+    private extendBuffer(data: BufferSource, packetSize: number): BufferSource {
+        function isView(source: ArrayBuffer | ArrayBufferView): source is ArrayBufferView {
+            return (source as ArrayBufferView).buffer !== undefined;
+        }
+
+        const arrayBuffer = isView(data) ? data.buffer : data;
+        const length = Math.min(arrayBuffer.byteLength, packetSize);
+
+        const result = new Uint8Array(length);
+        result.set(new Uint8Array(arrayBuffer));
+
+        return result;
     }
 
     /**
@@ -86,7 +100,8 @@ export class WebHID implements Transport {
      * @returns Promise
      */
     public async write(data: BufferSource): Promise<void> {
-        const buffer = new Uint8Array(data as ArrayBuffer);
+
+        const buffer = this.extendBuffer(data, this.packetSize);
         await this.device.sendReport(REPORTID, buffer);
     }
 }
