@@ -1,10 +1,34 @@
 import { Transport } from './';
 
-interface HIDDevice {
+interface HIDDevice extends EventTarget {
+    oninputreport: ((this: HIDDevice, ev: HIDInputReportEvent) => any) | null;
+    readonly opened: boolean;
+    readonly vendorId: number;
+    readonly productId: number;
+    readonly productName: string;
+    readonly collections: readonly HIDCollectionInfo[];
+
     open(): Promise<void>;
     close(): Promise<void>;
-    receiveReport(reportId: number): Promise<ArrayBuffer>;
-    sendReport(reportId: number, data: Uint8Array): Promise<void>;
+    forget(): Promise<void>;
+    sendReport(reportId: number, data: ArrayBufferView | ArrayBuffer): Promise<void>;
+    sendFeatureReport(reportId: number, data: ArrayBufferView | ArrayBuffer): Promise<void>;
+    receiveFeatureReport(reportId: number): Promise<DataView>;
+}
+
+interface HIDInputReportEvent extends Event {
+    readonly device: HIDDevice;
+    readonly reportId: number;
+    readonly data: DataView;
+}
+
+interface HIDCollectionInfo {
+    usage: number;
+    usagePage: number;
+    reportId: number;
+    inputReports: number;
+    outputReports: number;
+    featureReports: number;
 }
 
 /**
@@ -47,8 +71,13 @@ export class WebHID implements Transport {
      * @returns Promise of DataView
      */
     public async read(): Promise<DataView> {
-        const report = await this.device.receiveReport(this.reportId);
-        return new DataView(report);
+        const dataView = await new Promise<DataView>(resolve => {
+            this.device.oninputreport = function (this: HIDDevice, ev: HIDInputReportEvent) {
+                resolve(ev.data);
+            };
+        });
+
+        return dataView;
     }
 
     /**

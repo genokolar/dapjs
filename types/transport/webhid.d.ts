@@ -1,9 +1,30 @@
 import { Transport } from './';
-interface HIDDevice {
+interface HIDDevice extends EventTarget {
+    oninputreport: ((this: HIDDevice, ev: HIDInputReportEvent) => any) | null;
+    readonly opened: boolean;
+    readonly vendorId: number;
+    readonly productId: number;
+    readonly productName: string;
+    readonly collections: readonly HIDCollectionInfo[];
     open(): Promise<void>;
     close(): Promise<void>;
-    receiveReport(reportId: number): Promise<ArrayBuffer>;
-    sendReport(reportId: number, data: Uint8Array): Promise<void>;
+    forget(): Promise<void>;
+    sendReport(reportId: number, data: ArrayBufferView | ArrayBuffer): Promise<void>;
+    sendFeatureReport(reportId: number, data: ArrayBufferView | ArrayBuffer): Promise<void>;
+    receiveFeatureReport(reportId: number): Promise<DataView>;
+}
+interface HIDInputReportEvent extends Event {
+    readonly device: HIDDevice;
+    readonly reportId: number;
+    readonly data: DataView;
+}
+interface HIDCollectionInfo {
+    usage: number;
+    usagePage: number;
+    reportId: number;
+    inputReports: number;
+    outputReports: number;
+    featureReports: number;
 }
 /**
  * WebHID Transport class
