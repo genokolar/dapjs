@@ -16,7 +16,6 @@ const REPORT_ID = 0x90;
  * WebHID Transport class
  */
 export class WebHID implements Transport {
-    private reportId?: number;
     public readonly packetSize = 64;
 
     /**
