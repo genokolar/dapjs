@@ -130,6 +130,10 @@
                 const device = await navigator.hid.requestDevice({
                     filters: [{vendorId: 0x4366}]
                 });
+                device.open();
+                device.oninputreport = event => {
+                    console.log(event.data);
+                }
                 await update(device);
             } catch (error) {
                 statusEl.style.visibility = "hidden";
