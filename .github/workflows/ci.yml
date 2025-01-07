@@ -29,8 +29,8 @@ jobs:
       - name: Deploy to gh-pages
         if: ${{ github.event_name == 'push' }}
         run: |
-          git config --global user.name thegecko
-          git config --global user.email github@thegecko.org
+          git config --global user.name geno
+          git config --global user.email genokoalr@gmail.com
           git add --force dist types docs
           git stash save
           git checkout gh-pages
