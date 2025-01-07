@@ -19,8 +19,6 @@ export class WebHID implements Transport {
      * @param reportId Report ID to use
      */
     constructor(private device: HIDDevice, private reportId = REPORT_ID) {
-        this.device = device;
-        this.reportId = reportId;
     }
 
     /**
@@ -28,11 +26,7 @@ export class WebHID implements Transport {
      * @returns Promise
      */
     public async open(): Promise<void> {
-        if (this.device.open) {
-            await this.device.open();
-        } else {
-            throw new Error("Device does not support open method");
-        }
+        await this.device.open();
     }
 
     /**
@@ -40,11 +34,7 @@ export class WebHID implements Transport {
      * @returns Promise
      */
     public async close(): Promise<void> {
-        if (this.device.close) {
-            await this.device.close();
-        } else {
-            throw new Error("Device does not support close method");
-        }
+        await this.device.close();
     }
 
     /**
@@ -52,16 +42,8 @@ export class WebHID implements Transport {
      * @returns Promise of DataView
      */
     public async read(): Promise<DataView> {
-        if (this.device.receiveReport) {
-            const report = await this.device.receiveReport(this.reportId);
-            if (report && report.buffer) {
-                return new DataView(report.buffer);
-            } else {
-                throw new Error("Invalid report received");
-            }
-        } else {
-            throw new Error("Device does not support receiveReport method");
-        }
+        const report = await this.device.receiveReport(this.reportId);
+        return new DataView(report.buffer);
     }
 
     /**
@@ -70,11 +52,7 @@ export class WebHID implements Transport {
      * @returns Promise
      */
     public async write(data: BufferSource): Promise<void> {
-        if (this.device.sendReport) {
-            const buffer = new Uint8Array(data);
-            await this.device.sendReport(this.reportId, buffer);
-        } else {
-            throw new Error("Device does not support sendReport method");
-        }
+        const buffer = new Uint8Array(data);
+        await this.device.sendReport(this.reportId, buffer);
     }
 }
