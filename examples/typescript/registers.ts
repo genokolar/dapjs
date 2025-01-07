@@ -26,6 +26,10 @@ export interface USB {
     requestDevice(options?: USBDeviceRequestOptions): Promise<USBDevice>;
 }
 
+export interface HID {
+    requestDevice(options?: HIDDeviceRequestOptions): Promise<HIDDevice>;
+}
+
 export class Registers {
 
     constructor(private usb: USB = navigator.usb) {
