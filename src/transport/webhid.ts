@@ -34,13 +34,12 @@ interface HIDCollectionInfo {
 /**
  * @hidden
  */
-const REPORTID = 0x90;
 
 /**
  * WebHID Transport class
  */
 export class WebHID implements Transport {
-    public readonly packetSize = 63;
+    public readonly packetSize = 64;
 
     /**
      * WebHID constructor
@@ -102,6 +101,6 @@ export class WebHID implements Transport {
     public async write(data: BufferSource): Promise<void> {
 
         const buffer = this.extendBuffer(data, this.packetSize);
-        await this.device.sendReport(REPORTID, buffer);
+        await this.device.sendReport(0x00, buffer);
     }
 }
