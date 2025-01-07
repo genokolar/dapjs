@@ -27,6 +27,9 @@ interface HIDCollectionInfo {
     featureReports: number;
 }
 /**
+ * @hidden
+ */
+/**
  * WebHID Transport class
  */
 export declare class WebHID implements Transport {
@@ -38,6 +41,7 @@ export declare class WebHID implements Transport {
      * @param reportId Report ID to use
      */
     constructor(device: HIDDevice);
+    private extendBuffer;
     /**
      * Open device
      * @returns Promise
