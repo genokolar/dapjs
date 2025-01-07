@@ -6,6 +6,7 @@ interface HIDDevice extends EventTarget {
     readonly vendorId: number;
     readonly productId: number;
     readonly productName: string;
+    readonly collections: ReadonlyArray<HIDCollectionInfo>;
 
     open(): Promise<void>;
     close(): Promise<void>;
@@ -13,6 +14,21 @@ interface HIDDevice extends EventTarget {
     sendReport(reportId: number, data: ArrayBufferView | ArrayBuffer): Promise<void>;
     sendFeatureReport(reportId: number, data: ArrayBufferView | ArrayBuffer): Promise<void>;
     receiveFeatureReport(reportId: number): Promise<DataView>;
+}
+
+interface HIDInputReportEvent extends Event {
+    readonly device: HIDDevice;
+    readonly reportId: number;
+    readonly data: DataView;
+}
+
+interface HIDCollectionInfo {
+    usage: number;
+    usagePage: number;
+    reportId: number;
+    inputReports: number;
+    outputReports: number;
+    featureReports: number;
 }
 
 /**
@@ -55,8 +71,13 @@ export class WebHID implements Transport {
      * @returns Promise of DataView
      */
     public async read(): Promise<DataView> {
-        const report = await this.device.receiveReport(this.reportId);
-        return new DataView(report);
+        const dataView = await new Promise<DataView>((resolve, reject) => {
+            this.device.oninputreport = (event: HIDInputReportEvent) => {
+                resolve(event.data);
+            };
+        });
+
+        return dataView;
     }
 
     /**
