@@ -127,8 +127,8 @@
             setTransfer();
 
             try {
-                const device = await navigator.usb.requestDevice({
-                    filters: [{vendorId: 0xD28}]
+                const device = await navigator.hid.requestDevice({
+                    filters: [{vendorId: 0x4366}]
                 });
                 await update(device);
             } catch (error) {
@@ -141,7 +141,7 @@
         const update = async device => {
             if (!buffer) return;
 
-            const transport = new DAPjs.WebUSB(device);
+            const transport = new DAPjs.WebHID(device);
             const target = new DAPjs.DAPLink(transport);
 
             target.on(DAPjs.DAPLink.EVENT_PROGRESS, progress => {
