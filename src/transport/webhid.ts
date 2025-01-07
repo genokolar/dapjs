@@ -33,8 +33,8 @@ export class WebHID implements Transport {
      * Close device
      * @returns Promise
      */
-    public close(): Promise<void> {
-        return this.device.close();
+    public async close(): Promise<void> {
+        await this.device.close();
     }
 
     /**
