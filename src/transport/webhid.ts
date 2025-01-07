@@ -71,7 +71,7 @@ export class WebHID implements Transport {
      * @returns Promise of DataView
      */
     public async read(): Promise<DataView> {
-        const dataView = await new Promise<DataView>((resolve) => {
+        const dataView = await new Promise<DataView>(resolve => {
             this.device.oninputreport = (event: HIDInputReportEvent) => {
                 resolve(event.data);
             };
