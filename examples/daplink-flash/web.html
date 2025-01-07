@@ -128,7 +128,7 @@
 
             try {
                 const device = await navigator.hid.requestDevice({
-                    filters: [{vendorId: 0x4366, usagePage: 0xff00, usage: 0x0002}]
+                    filters: [{vendorId: 0x1209, usagePage: 0xff00, usage: 0x0002}]
                 });
                 device.oninputreport = event => {
                     console.log(event.data);
