@@ -48,7 +48,7 @@ export class WebHID implements Transport {
      */
     public async read(): Promise<DataView> {
         const report = await this.device.receiveReport(this.reportId);
-        return new DataView(report.buffer);
+        return new DataView(report);
     }
 
     /**
@@ -57,7 +57,7 @@ export class WebHID implements Transport {
      * @returns Promise
      */
     public async write(data: BufferSource): Promise<void> {
-        const buffer = new Uint8Array(data);
+        const buffer = new Uint8Array(data as ArrayBuffer);
         await this.device.sendReport(this.reportId, buffer);
     }
 }
