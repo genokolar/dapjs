@@ -1,5 +1,12 @@
 import { Transport } from './';
 
+interface HIDDevice {
+    open(): Promise<void>;
+    close(): Promise<void>;
+    receiveReport(reportId: number): Promise<ArrayBuffer>;
+    sendReport(reportId: number, data: Uint8Array): Promise<void>;
+}
+
 /**
  * @hidden
  */
