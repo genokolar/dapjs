@@ -6,7 +6,6 @@ interface HIDDevice extends EventTarget {
     readonly vendorId: number;
     readonly productId: number;
     readonly productName: string;
-    readonly collections: ReadonlyArray<HIDCollectionInfo>;
 
     open(): Promise<void>;
     close(): Promise<void>;
