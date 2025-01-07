@@ -48,6 +48,7 @@ export class WebHID implements Transport {
      * @param reportId Report ID to use
      */
     constructor(private device: HIDDevice, private reportId = REPORT_ID) {
+        this.device = device;
     }
 
     /**
