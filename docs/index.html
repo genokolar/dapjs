@@ -1,0 +1,178 @@
+<!DOCTYPE html><html class="default" lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>DAPjs API Documentation</title><meta name="description" content="Documentation for DAPjs API Documentation"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script defer src="assets/main.js"></script><script async src="assets/icons.js" id="tsd-icons-script"></script><script async src="assets/search.js" id="tsd-search-script"></script><script async src="assets/navigation.js" id="tsd-nav-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><div class="table-cell" id="tsd-search" data-base="."><div class="field"><label for="tsd-search-field" class="tsd-widget tsd-toolbar-icon search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="assets/icons.svg#icon-search"></use></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div><div class="field"><div id="tsd-toolbar-links"></div></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">DAPjs API Documentation</a></div><div class="table-cell" id="tsd-widgets"><a href="#" class="tsd-widget tsd-toolbar-icon menu no-caption" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="assets/icons.svg#icon-menu"></use></svg></a></div></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><h2>DAPjs API Documentation</h2></div><div class="tsd-panel tsd-typography"><a id="md:dapjs" class="tsd-anchor"></a><h1><a href="#md:dapjs">DAP.js</a></h1><p><a href="https://github.com/ARMmbed/dapjs/actions"><img src="https://github.com/ARMmbed/dapjs/workflows/ci/badge.svg" alt="Build Status"></a>
+<a href="https://www.npmjs.com/package/dapjs"><img src="https://img.shields.io/npm/dm/dapjs.svg" alt="npm"></a>
+<a href="https://spdx.org/licenses/MIT.html"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License"></a></p>
+<p>DAP.js is a JavaScript interface to <a href="https://www.keil.com/pack/doc/CMSIS/DAP/html/index.html">CMSIS-DAP</a>, enabling access to Arm Microcontrollers using <a href="https://nodejs.org/">Node.js</a> or in the browser using <a href="https://wicg.github.io/webusb/">WebUSB</a>.</p>
+<a id="md:prerequisites" class="tsd-anchor"></a><h2><a href="#md:prerequisites">Prerequisites</a></h2><p><a href="https://nodejs.org">Node.js &gt; v8.14.0</a>, which includes <code>npm</code></p>
+<a id="md:installation" class="tsd-anchor"></a><h2><a href="#md:installation">Installation</a></h2><p>The package is distributed using npm. To install the package in your project:</p>
+<pre><code class="language-bash"><span class="hl-0">$</span><span class="hl-1"> </span><span class="hl-2">npm</span><span class="hl-1"> </span><span class="hl-2">install</span><span class="hl-1"> </span><span class="hl-2">dapjs</span>
+</code><button>Copy</button></pre>
+<a id="md:getting-started" class="tsd-anchor"></a><h2><a href="#md:getting-started">Getting Started</a></h2><p>Decide on a transport layer to use (see below) and refer to the <a href="https://github.com/ARMmbed/dapjs/tree/master/examples/">examples folder</a> to get started.</p>
+<p>The web examples can be seen running at:</p>
+<p><a href="https://armmbed.github.io/dapjs/examples/index.html">https://armmbed.github.io/dapjs/examples/index.html</a></p>
+<p>Refer to the <a href="https://armmbed.github.io/dapjs/">DAPjs API Documentation</a> for more information.</p>
+<a id="md:supported-systems" class="tsd-anchor"></a><h2><a href="#md:supported-systems">Supported Systems</a></h2><a id="md:browsers" class="tsd-anchor"></a><h3><a href="#md:browsers">Browsers</a></h3><p>Please refer to the <a href="https://github.com/WICG/webusb#implementation-status">WebUSB implementation status</a> for browser support.</p>
+<a id="md:windows" class="tsd-anchor"></a><h3><a href="#md:windows">Windows</a></h3><p>All transports outlined below are known to work on Windows 7, 8 and 10. Please refer to the <a href="https://github.com/tessel/node-usb/issues/182">node-usb FAQ</a> with any issues using the <code>USB</code> or <code>WebUSB</code> transport in <code>Node.js</code>. The <code>HID</code> transport is preferred on Windows.</p>
+<p>Please ensure you <strong>don&#39;t</strong> have the Mbed Serial driver installed on <code>Windows 10</code> as this can cause issues and isn&#39;t needed on this platform.</p>
+<a id="md:macos" class="tsd-anchor"></a><h3><a href="#md:macos">MacOS</a></h3><p>No known issues with any transports in <code>Node.js</code> Tested on MacOS 10.12.</p>
+<a id="md:linux" class="tsd-anchor"></a><h3><a href="#md:linux">Linux</a></h3><p>Basic testing undertaken with no known issues. Please refer to the <a href="https://github.com/tessel/node-usb/issues/182">node-usb FAQ</a> with any issues using the <code>USB</code> or <code>WebUSB</code> transport in <code>Node.js</code>.</p>
+<a id="md:development-boards" class="tsd-anchor"></a><h3><a href="#md:development-boards">Development Boards</a></h3><p>All develoment boards supporting <code>CMSIS-DAP</code> should work. For the flash and serial <code>DAPLink</code> functionality, all <a href="https://os.mbed.com/platforms/?mbed-enabled=15">Mbed Enabled boards</a> should work, but need the latest <code>DAPLink</code> firmware installed.</p>
+<p>The latest DAPLink containing WebUSB support needs to be built from the <a href="https://github.com/ARMmbed/DAPLink">DAPLink source</a> until we have prepared a new firmware release on <a href="https://armmbed.github.io/DAPLink/">https://armmbed.github.io/DAPLink/</a>.</p>
+<p>All examples have been tested with the latest DAPLink fiormware on the following hardware:</p>
+<ul>
+<li>Freedom K64F</li>
+<li>BBC micro:bit</li>
+</ul>
+<a id="md:choosing-a-transport" class="tsd-anchor"></a><h2><a href="#md:choosing-a-transport">Choosing a Transport</a></h2><p>In order to use DAPjs, you need to install support for one of the transports. Use the following information to help you choose which to use:</p>
+<a id="md:webusb" class="tsd-anchor"></a><h3><a href="#md:webusb">WebUSB</a></h3><p>If you wish to use DAPjs in a browser environment, you must use WebUSB. Please refer to the <a href="https://github.com/WICG/webusb#implementation-status">implementation status</a> of WebUSB to understand browser support for this technology.</p>
+<p><strong>Note:</strong> WebUSB in the browser doesn&#39;t require any further libraries to be installed.</p>
+<p>If you also want your program to work in a Node.js environment a <a href="https://github.com/thegecko/webusb">WebUSB library</a> exists to allow your program to be ported to Node.js.</p>
+<p>To install the library for Node.js, use:</p>
+<pre><code class="language-bash"><span class="hl-0">$</span><span class="hl-1"> </span><span class="hl-2">npm</span><span class="hl-1"> </span><span class="hl-2">install</span><span class="hl-1"> </span><span class="hl-2">webusb</span>
+</code><button>Copy</button></pre>
+<a id="md:example" class="tsd-anchor"></a><h4><a href="#md:example">Example</a></h4><p>In the browser, require the library:</p>
+<pre><code class="language-html"><span class="hl-3">&lt;</span><span class="hl-4">script</span><span class="hl-5"> </span><span class="hl-6">type</span><span class="hl-5">=</span><span class="hl-7">&quot;text/javascript&quot;</span><span class="hl-5"> </span><span class="hl-6">src</span><span class="hl-5">=</span><span class="hl-7">&quot;dist/dap.umd.js&quot;</span><span class="hl-3">&gt;&lt;/</span><span class="hl-4">script</span><span class="hl-3">&gt;</span>
+</code><button>Copy</button></pre>
+<p>In Node.js Require the libraries:</p>
+<pre><code class="language-javascript"><span class="hl-8">const</span><span class="hl-1"> </span><span class="hl-9">usb</span><span class="hl-1"> = </span><span class="hl-0">require</span><span class="hl-1">(</span><span class="hl-2">&#39;webusb&#39;</span><span class="hl-1">).</span><span class="hl-10">usb</span><span class="hl-1">;</span><br/><span class="hl-8">const</span><span class="hl-1"> </span><span class="hl-9">DAPjs</span><span class="hl-1"> = </span><span class="hl-0">require</span><span class="hl-1">(</span><span class="hl-2">&#39;dapjs&#39;</span><span class="hl-1">);</span>
+</code><button>Copy</button></pre>
+<p>Then in either environment:</p>
+<pre><code class="language-javascript"><span class="hl-8">const</span><span class="hl-1"> </span><span class="hl-9">device</span><span class="hl-1"> = </span><span class="hl-11">await</span><span class="hl-1"> </span><span class="hl-3">&lt;</span><span class="hl-4">navigator</span><span class="hl-3">&gt;</span><span class="hl-1">.usb.requestDevice(</span><span class="hl-8">{</span><br/><span class="hl-5">    </span><span class="hl-10">filters</span><span class="hl-5">: [{</span><span class="hl-10">vendorId:</span><span class="hl-5"> </span><span class="hl-12">0xD28</span><span class="hl-5">}]</span><br/><span class="hl-8">}</span><span class="hl-1">);</span><br/><br/><span class="hl-1">const transport = new DAPjs.WebUSB(device);</span><br/><span class="hl-1">const daplink = new DAPjs.DAPLink(transport);</span><br/><br/><span class="hl-1">try </span><span class="hl-8">{</span><br/><span class="hl-5">    </span><span class="hl-11">await</span><span class="hl-5"> </span><span class="hl-10">daplink</span><span class="hl-5">.</span><span class="hl-0">connect</span><span class="hl-5">();</span><br/><span class="hl-5">    </span><span class="hl-11">await</span><span class="hl-5"> </span><span class="hl-10">daplink</span><span class="hl-5">.</span><span class="hl-0">disconnect</span><span class="hl-5">();</span><br/><span class="hl-8">}</span><span class="hl-1"> catch(error) </span><span class="hl-8">{</span><br/><span class="hl-5">    </span><span class="hl-10">console</span><span class="hl-5">.</span><span class="hl-0">error</span><span class="hl-5">(</span><span class="hl-10">error</span><span class="hl-5">.</span><span class="hl-10">message</span><span class="hl-5"> </span><span class="hl-1">||</span><span class="hl-5"> </span><span class="hl-10">error</span><span class="hl-5">);</span><br/><span class="hl-8">}</span>
+</code><button>Copy</button></pre>
+<a id="md:pros" class="tsd-anchor"></a><h4><a href="#md:pros">Pros</a></h4><ul>
+<li>Works in the browser</li>
+<li>Programs are portable to Node.js environments</li>
+</ul>
+<a id="md:cons" class="tsd-anchor"></a><h4><a href="#md:cons">Cons</a></h4><ul>
+<li>Requires a recent version of <a href="https://armmbed.github.io/DAPLink/">DAPLink</a> to be installed on your target device.</li>
+</ul>
+<a id="md:hid" class="tsd-anchor"></a><h3><a href="#md:hid">HID</a></h3><p>For the highest level of firmware compatibility in a Node.js environment, the HID transport is recommended. This utilises the <code>node-hid</code> library and is installed as follows:</p>
+<pre><code class="language-bash"><span class="hl-0">$</span><span class="hl-1"> </span><span class="hl-2">npm</span><span class="hl-1"> </span><span class="hl-2">install</span><span class="hl-1"> </span><span class="hl-2">node-hid</span>
+</code><button>Copy</button></pre>
+<a id="md:example-1" class="tsd-anchor"></a><h4><a href="#md:example-1">Example</a></h4><pre><code class="language-javascript"><span class="hl-8">const</span><span class="hl-1"> </span><span class="hl-9">hid</span><span class="hl-1"> = </span><span class="hl-0">require</span><span class="hl-1">(</span><span class="hl-2">&#39;node-hid&#39;</span><span class="hl-1">);</span><br/><span class="hl-8">const</span><span class="hl-1"> </span><span class="hl-9">DAPjs</span><span class="hl-1"> = </span><span class="hl-0">require</span><span class="hl-1">(</span><span class="hl-2">&#39;dapjs&#39;</span><span class="hl-1">);</span><br/><br/><span class="hl-8">let</span><span class="hl-1"> </span><span class="hl-10">devices</span><span class="hl-1"> = </span><span class="hl-10">hid</span><span class="hl-1">.</span><span class="hl-0">devices</span><span class="hl-1">();</span><br/><span class="hl-10">devices</span><span class="hl-1"> = </span><span class="hl-10">devices</span><span class="hl-1">.</span><span class="hl-0">filter</span><span class="hl-1">(</span><span class="hl-10">device</span><span class="hl-1"> </span><span class="hl-8">=&gt;</span><span class="hl-1"> </span><span class="hl-10">device</span><span class="hl-1">.</span><span class="hl-10">vendorId</span><span class="hl-1"> === </span><span class="hl-12">0xD28</span><span class="hl-1">);</span><br/><br/><span class="hl-8">const</span><span class="hl-1"> </span><span class="hl-9">device</span><span class="hl-1"> = </span><span class="hl-8">new</span><span class="hl-1"> </span><span class="hl-10">hid</span><span class="hl-1">.</span><span class="hl-0">HID</span><span class="hl-1">(</span><span class="hl-10">devices</span><span class="hl-1">[</span><span class="hl-12">0</span><span class="hl-1">].</span><span class="hl-10">path</span><span class="hl-1">);</span><br/><span class="hl-8">const</span><span class="hl-1"> </span><span class="hl-9">transport</span><span class="hl-1"> = </span><span class="hl-8">new</span><span class="hl-1"> </span><span class="hl-10">DAPjs</span><span class="hl-1">.</span><span class="hl-0">HID</span><span class="hl-1">(</span><span class="hl-10">device</span><span class="hl-1">);</span><br/><span class="hl-8">const</span><span class="hl-1"> </span><span class="hl-9">daplink</span><span class="hl-1"> = </span><span class="hl-8">new</span><span class="hl-1"> </span><span class="hl-10">DAPjs</span><span class="hl-1">.</span><span class="hl-0">DAPLink</span><span class="hl-1">(</span><span class="hl-10">transport</span><span class="hl-1">);</span><br/><br/><span class="hl-11">try</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-11">await</span><span class="hl-1"> </span><span class="hl-10">daplink</span><span class="hl-1">.</span><span class="hl-0">connect</span><span class="hl-1">();</span><br/><span class="hl-1">    </span><span class="hl-11">await</span><span class="hl-1"> </span><span class="hl-10">daplink</span><span class="hl-1">.</span><span class="hl-0">disconnect</span><span class="hl-1">();</span><br/><span class="hl-1">} </span><span class="hl-11">catch</span><span class="hl-1">(</span><span class="hl-10">error</span><span class="hl-1">) {</span><br/><span class="hl-1">    </span><span class="hl-10">console</span><span class="hl-1">.</span><span class="hl-0">error</span><span class="hl-1">(</span><span class="hl-10">error</span><span class="hl-1">.</span><span class="hl-10">message</span><span class="hl-1"> || </span><span class="hl-10">error</span><span class="hl-1">);</span><br/><span class="hl-1">}</span>
+</code><button>Copy</button></pre>
+<a id="md:pros-1" class="tsd-anchor"></a><h4><a href="#md:pros-1">Pros</a></h4><ul>
+<li>Compatible with older CMSIS-DAP firmware.</li>
+</ul>
+<a id="md:cons-1" class="tsd-anchor"></a><h4><a href="#md:cons-1">Cons</a></h4><ul>
+<li>Requires HID access to JavaScript in your OS.</li>
+</ul>
+<a id="md:usb" class="tsd-anchor"></a><h3><a href="#md:usb">USB</a></h3><p>A &quot;pure&quot; USB transport exists which bypasses requiring <code>WebUSB</code> and <code>HID</code>.
+This utilises the <code>usb</code> library and is installed as follows:</p>
+<pre><code class="language-bash"><span class="hl-0">$</span><span class="hl-1"> </span><span class="hl-2">npm</span><span class="hl-1"> </span><span class="hl-2">install</span><span class="hl-1"> </span><span class="hl-2">usb</span>
+</code><button>Copy</button></pre>
+<a id="md:example-2" class="tsd-anchor"></a><h4><a href="#md:example-2">Example</a></h4><pre><code class="language-javascript"><span class="hl-8">const</span><span class="hl-1"> </span><span class="hl-9">usb</span><span class="hl-1"> = </span><span class="hl-0">require</span><span class="hl-1">(</span><span class="hl-2">&#39;usb&#39;</span><span class="hl-1">);</span><br/><span class="hl-8">const</span><span class="hl-1"> </span><span class="hl-9">DAPjs</span><span class="hl-1"> = </span><span class="hl-0">require</span><span class="hl-1">(</span><span class="hl-2">&#39;dapjs&#39;</span><span class="hl-1">);</span><br/><br/><span class="hl-8">let</span><span class="hl-1"> </span><span class="hl-10">devices</span><span class="hl-1"> = </span><span class="hl-10">usb</span><span class="hl-1">.</span><span class="hl-0">getDeviceList</span><span class="hl-1">();</span><br/><span class="hl-10">devices</span><span class="hl-1"> = </span><span class="hl-10">devices</span><span class="hl-1">.</span><span class="hl-0">filter</span><span class="hl-1">(</span><span class="hl-10">device</span><span class="hl-1"> </span><span class="hl-8">=&gt;</span><span class="hl-1"> </span><span class="hl-10">device</span><span class="hl-1">.</span><span class="hl-10">deviceDescriptor</span><span class="hl-1">.</span><span class="hl-10">idVendor</span><span class="hl-1"> === </span><span class="hl-12">0xD28</span><span class="hl-1">);</span><br/><br/><span class="hl-8">const</span><span class="hl-1"> </span><span class="hl-9">transport</span><span class="hl-1"> = </span><span class="hl-8">new</span><span class="hl-1"> </span><span class="hl-10">DAPjs</span><span class="hl-1">.</span><span class="hl-0">USB</span><span class="hl-1">(</span><span class="hl-10">devices</span><span class="hl-1">[</span><span class="hl-12">0</span><span class="hl-1">]);</span><br/><span class="hl-8">const</span><span class="hl-1"> </span><span class="hl-9">daplink</span><span class="hl-1"> = </span><span class="hl-8">new</span><span class="hl-1"> </span><span class="hl-10">DAPjs</span><span class="hl-1">.</span><span class="hl-0">DAPLink</span><span class="hl-1">(</span><span class="hl-10">transport</span><span class="hl-1">);</span><br/><br/><span class="hl-11">try</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-11">await</span><span class="hl-1"> </span><span class="hl-10">daplink</span><span class="hl-1">.</span><span class="hl-0">connect</span><span class="hl-1">();</span><br/><span class="hl-1">    </span><span class="hl-11">await</span><span class="hl-1"> </span><span class="hl-10">daplink</span><span class="hl-1">.</span><span class="hl-0">disconnect</span><span class="hl-1">();</span><br/><span class="hl-1">} </span><span class="hl-11">catch</span><span class="hl-1">(</span><span class="hl-10">error</span><span class="hl-1">) {</span><br/><span class="hl-1">    </span><span class="hl-10">console</span><span class="hl-1">.</span><span class="hl-0">error</span><span class="hl-1">(</span><span class="hl-10">error</span><span class="hl-1">.</span><span class="hl-10">message</span><span class="hl-1"> || </span><span class="hl-10">error</span><span class="hl-1">);</span><br/><span class="hl-1">}</span>
+</code><button>Copy</button></pre>
+<a id="md:pros-2" class="tsd-anchor"></a><h4><a href="#md:pros-2">Pros</a></h4><ul>
+<li>Doesn&#39;t require HID access to JavaScript in your OS.</li>
+</ul>
+<a id="md:cons-2" class="tsd-anchor"></a><h4><a href="#md:cons-2">Cons</a></h4><ul>
+<li>Requires a recent version of <a href="https://armmbed.github.io/DAPLink/">DAPLink</a> to be installed on your target device.</li>
+<li>Can have issues on Windows machines</li>
+</ul>
+<a id="md:architecture" class="tsd-anchor"></a><h2><a href="#md:architecture">Architecture</a></h2><p>The architecture of this project is built up in layers as follows:</p>
+<a id="md:transport" class="tsd-anchor"></a><h3><a href="#md:transport">Transport</a></h3><p>The <code>Transport</code> layer offers access to the USB device plugged into the host. Different transports are available based on user needs (see above).</p>
+<a id="md:implementation-status" class="tsd-anchor"></a><h4><a href="#md:implementation-status">Implementation Status</a></h4><ul>
+<li><input checked="" disabled="" type="checkbox"> packetSize</li>
+<li><input checked="" disabled="" type="checkbox"> open()</li>
+<li><input checked="" disabled="" type="checkbox"> close()</li>
+<li><input checked="" disabled="" type="checkbox"> read()</li>
+<li><input checked="" disabled="" type="checkbox"> write()</li>
+</ul>
+<a id="md:proxy" class="tsd-anchor"></a><h3><a href="#md:proxy">Proxy</a></h3><p>The <code>Proxy</code> layer uses the transport layer to expose low-level <code>CMSIS-DAP</code> commands to the next layer. A common use for the proxy is as a debug chip attached to the main processor accessed over USB.</p>
+<p>A CMSIS-DAP implementation is included, however a network proxy or similar could be introduced at this layer in order to remote commands.</p>
+<a id="md:implementation-status-1" class="tsd-anchor"></a><h4><a href="#md:implementation-status-1">Implementation Status</a></h4><ul>
+<li><input checked="" disabled="" type="checkbox"> operationCount</li>
+<li><input checked="" disabled="" type="checkbox"> blockSize</li>
+<li><input checked="" disabled="" type="checkbox"> dapInfo()</li>
+<li><input checked="" disabled="" type="checkbox"> swjSequence()</li>
+<li><input checked="" disabled="" type="checkbox"> swjClock()</li>
+<li><input checked="" disabled="" type="checkbox"> transferConfigure()</li>
+<li><input checked="" disabled="" type="checkbox"> connect()</li>
+<li><input checked="" disabled="" type="checkbox"> disconnect()</li>
+<li><input checked="" disabled="" type="checkbox"> reconnect()</li>
+<li><input checked="" disabled="" type="checkbox"> reset()</li>
+<li><input checked="" disabled="" type="checkbox"> transfer()</li>
+<li><input checked="" disabled="" type="checkbox"> transferBlock()</li>
+<li><input disabled="" type="checkbox"> hostStatus()</li>
+<li><input disabled="" type="checkbox"> delay()</li>
+<li><input disabled="" type="checkbox"> writeAbort()</li>
+<li><input disabled="" type="checkbox"> swjPins()</li>
+<li><input disabled="" type="checkbox"> swdSequence()</li>
+<li><input disabled="" type="checkbox"> swdConfigure()</li>
+<li><input disabled="" type="checkbox"> swoTransport()</li>
+<li><input disabled="" type="checkbox"> swoMode()</li>
+<li><input disabled="" type="checkbox"> swoBaudrate()</li>
+<li><input disabled="" type="checkbox"> swoControl()</li>
+<li><input disabled="" type="checkbox"> swoStatus()</li>
+<li><input disabled="" type="checkbox"> swoExtendedStatus()</li>
+<li><input disabled="" type="checkbox"> swoData()</li>
+<li><input disabled="" type="checkbox"> jtagSequence()</li>
+<li><input disabled="" type="checkbox"> jtagConfigure()</li>
+<li><input disabled="" type="checkbox"> jtagIDCode()</li>
+<li><input disabled="" type="checkbox"> transferAbort()</li>
+<li><input disabled="" type="checkbox"> executeCommands()</li>
+<li><input disabled="" type="checkbox"> queueCommands()</li>
+</ul>
+<a id="md:daplink" class="tsd-anchor"></a><h3><a href="#md:daplink">DAPLink</a></h3><p>The <code>DAPLink</code> layer is a special derived implementation of the <code>CMSIS-DAP</code> proxy implementation. It adds DAPLink vendor specific functionality such as Mass Storage Device <code>firmware flashing</code> and <code>serial control</code>.</p>
+<a id="md:implementation-status-2" class="tsd-anchor"></a><h4><a href="#md:implementation-status-2">Implementation Status</a></h4><ul>
+<li><input checked="" disabled="" type="checkbox"> flash()</li>
+<li><input checked="" disabled="" type="checkbox"> getSerialBaudrate()</li>
+<li><input checked="" disabled="" type="checkbox"> setSerialBaudrate()</li>
+<li><input checked="" disabled="" type="checkbox"> startSerialRead()</li>
+<li><input checked="" disabled="" type="checkbox"> stopSerialRead()</li>
+<li><input checked="" disabled="" type="checkbox"> serialWrite()</li>
+</ul>
+<a id="md:events" class="tsd-anchor"></a><h4><a href="#md:events">Events</a></h4><ul>
+<li><input checked="" disabled="" type="checkbox"> flash_progress</li>
+<li><input checked="" disabled="" type="checkbox"> serial_data</li>
+</ul>
+<a id="md:dap" class="tsd-anchor"></a><h3><a href="#md:dap">DAP</a></h3><p>The <code>DAP</code> (Debug Access Port) layer exposes low-level access to ports, registers and memory. An implementation exists for <code>ADI</code> (Arm Debug Interface).</p>
+<a id="md:implementation-status-3" class="tsd-anchor"></a><h4><a href="#md:implementation-status-3">Implementation Status</a></h4><ul>
+<li><input checked="" disabled="" type="checkbox"> connect()</li>
+<li><input checked="" disabled="" type="checkbox"> disconnect()</li>
+<li><input checked="" disabled="" type="checkbox"> reconnect()</li>
+<li><input checked="" disabled="" type="checkbox"> reset()</li>
+<li><input checked="" disabled="" type="checkbox"> readDP()</li>
+<li><input checked="" disabled="" type="checkbox"> writeDP()</li>
+<li><input checked="" disabled="" type="checkbox"> readAP()</li>
+<li><input checked="" disabled="" type="checkbox"> writeAP()</li>
+<li><input checked="" disabled="" type="checkbox"> readMem8()</li>
+<li><input checked="" disabled="" type="checkbox"> writeMem8()</li>
+<li><input checked="" disabled="" type="checkbox"> readMem16()</li>
+<li><input checked="" disabled="" type="checkbox"> writeMem16()</li>
+<li><input checked="" disabled="" type="checkbox"> readMem32()</li>
+<li><input checked="" disabled="" type="checkbox"> writeMem32()</li>
+<li><input checked="" disabled="" type="checkbox"> readBlock()</li>
+<li><input checked="" disabled="" type="checkbox"> writeBlock()</li>
+<li><input checked="" disabled="" type="checkbox"> readBytes()</li>
+<li><input checked="" disabled="" type="checkbox"> writeBytes()</li>
+</ul>
+<a id="md:processor" class="tsd-anchor"></a><h3><a href="#md:processor">Processor</a></h3><p>The <code>Processor</code> layer exposes access to the core processor registers.</p>
+<a id="md:implementation-status-4" class="tsd-anchor"></a><h4><a href="#md:implementation-status-4">Implementation Status</a></h4><ul>
+<li><input checked="" disabled="" type="checkbox"> getState()</li>
+<li><input checked="" disabled="" type="checkbox"> isHalted()</li>
+<li><input checked="" disabled="" type="checkbox"> halt()</li>
+<li><input checked="" disabled="" type="checkbox"> resume()</li>
+<li><input checked="" disabled="" type="checkbox"> readCoreRegister()</li>
+<li><input checked="" disabled="" type="checkbox"> readCoreRegisters()</li>
+<li><input checked="" disabled="" type="checkbox"> writeCoreRegister()</li>
+<li><input checked="" disabled="" type="checkbox"> execute()</li>
+<li><input disabled="" type="checkbox"> step()</li>
+</ul>
+<a id="md:development" class="tsd-anchor"></a><h2><a href="#md:development">Development</a></h2><p>After cloning this repository, install the development dependencies:</p>
+<pre><code class="language-bash"><span class="hl-0">$</span><span class="hl-1"> </span><span class="hl-2">npm</span><span class="hl-1"> </span><span class="hl-2">install</span>
+</code><button>Copy</button></pre>
+<a id="md:building" class="tsd-anchor"></a><h3><a href="#md:building">Building</a></h3><p><a href="https://gulpjs.com/">Gulp</a> is used as a task runner to build the project.
+To build the project, simply run <code>gulp</code> or to continually build as source changes, run <code>gulp watch</code>:</p>
+<pre><code class="language-bash"><span class="hl-0">$</span><span class="hl-1"> </span><span class="hl-2">gulp</span><br/><span class="hl-0">$</span><span class="hl-1"> </span><span class="hl-2">gulp</span><span class="hl-1"> </span><span class="hl-2">watch</span>
+</code><button>Copy</button></pre>
+<p>A <code>package.json script</code> exists to run gulp if you don&#39;t have it installed globally:</p>
+<pre><code class="language-bash"><span class="hl-0">$</span><span class="hl-1"> </span><span class="hl-2">npm</span><span class="hl-1"> </span><span class="hl-2">run</span><span class="hl-1"> </span><span class="hl-2">gulp</span><br/><span class="hl-0">$</span><span class="hl-1"> </span><span class="hl-2">npm</span><span class="hl-1"> </span><span class="hl-2">run</span><span class="hl-1"> </span><span class="hl-2">gulp</span><span class="hl-1"> </span><span class="hl-2">watch</span>
+</code><button>Copy</button></pre>
+<a id="md:running" class="tsd-anchor"></a><h3><a href="#md:running">Running</a></h3><p>A local <a href="https://expressjs.com/">express</a> server is included to run the web example locally:</p>
+<pre><code class="language-bash"><span class="hl-0">$</span><span class="hl-1"> </span><span class="hl-2">node</span><span class="hl-1"> </span><span class="hl-2">server.js</span>
+</code><button>Copy</button></pre>
+<p>The latest build of master is always available to be installed from the <code>gh-pages</code> branch:</p>
+<pre><code class="language-bash"><span class="hl-0">$</span><span class="hl-1"> </span><span class="hl-2">npm</span><span class="hl-1"> </span><span class="hl-2">install</span><span class="hl-1"> </span><span class="hl-2">ARMmbed/dapjs#gh-pages</span>
+</code><button>Copy</button></pre>
+</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-index-accordion"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="assets/icons.svg#icon-chevronDown"></use></svg>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><h4 class="uppercase">Member Visibility</h4><form><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li></ul></form></div><div class="tsd-theme-toggle"><h4 class="uppercase">Theme</h4><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-index-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="assets/icons.svg#icon-chevronDown"></use></svg>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#md:dapjs"><span>DAP.js</span></a><ul><li><a href="#md:prerequisites"><span>Prerequisites</span></a></li><li><a href="#md:installation"><span>Installation</span></a></li><li><a href="#md:getting-started"><span>Getting <wbr/>Started</span></a></li><li><a href="#md:supported-systems"><span>Supported <wbr/>Systems</span></a></li><li><ul><li><a href="#md:browsers"><span>Browsers</span></a></li><li><a href="#md:windows"><span>Windows</span></a></li><li><a href="#md:macos"><span>MacOS</span></a></li><li><a href="#md:linux"><span>Linux</span></a></li><li><a href="#md:development-boards"><span>Development <wbr/>Boards</span></a></li></ul></li><li><a href="#md:choosing-a-transport"><span>Choosing a <wbr/>Transport</span></a></li><li><ul><li><a href="#md:webusb"><span>WebUSB</span></a></li><li><ul><li><a href="#md:example"><span>Example</span></a></li><li><a href="#md:pros"><span>Pros</span></a></li><li><a href="#md:cons"><span>Cons</span></a></li></ul></li><li><a href="#md:hid"><span>HID</span></a></li><li><ul><li><a href="#md:example-1"><span>Example</span></a></li><li><a href="#md:pros-1"><span>Pros</span></a></li><li><a href="#md:cons-1"><span>Cons</span></a></li></ul></li><li><a href="#md:usb"><span>USB</span></a></li><li><ul><li><a href="#md:example-2"><span>Example</span></a></li><li><a href="#md:pros-2"><span>Pros</span></a></li><li><a href="#md:cons-2"><span>Cons</span></a></li></ul></li></ul></li><li><a href="#md:architecture"><span>Architecture</span></a></li><li><ul><li><a href="#md:transport"><span>Transport</span></a></li><li><ul><li><a href="#md:implementation-status"><span>Implementation <wbr/>Status</span></a></li></ul></li><li><a href="#md:proxy"><span>Proxy</span></a></li><li><ul><li><a href="#md:implementation-status-1"><span>Implementation <wbr/>Status</span></a></li></ul></li><li><a href="#md:daplink"><span>DAPLink</span></a></li><li><ul><li><a href="#md:implementation-status-2"><span>Implementation <wbr/>Status</span></a></li><li><a href="#md:events"><span>Events</span></a></li></ul></li><li><a href="#md:dap"><span>DAP</span></a></li><li><ul><li><a href="#md:implementation-status-3"><span>Implementation <wbr/>Status</span></a></li></ul></li><li><a href="#md:processor"><span>Processor</span></a></li><li><ul><li><a href="#md:implementation-status-4"><span>Implementation <wbr/>Status</span></a></li></ul></li></ul></li><li><a href="#md:development"><span>Development</span></a></li><li><ul><li><a href="#md:building"><span>Building</span></a></li><li><a href="#md:running"><span>Running</span></a></li></ul></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="modules.html" class="current"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-1"></use></svg><span>DAPjs API Documentation</span></a><ul class="tsd-small-nested-navigation" id="tsd-nav-container" data-base="."><li>Loading...</li></ul></nav></div></div></div><footer></footer><div class="overlay"></div></body></html>
