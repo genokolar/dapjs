@@ -1,7 +1,7 @@
 import { Transport } from './';
 
 interface HIDDevice extends EventTarget {
-    oninputreport: ((this: HIDDevice, ev: Event) => any) | null;
+    oninputreport: ((this: HIDDevice, ev: HIDInputReportEvent) => any) | null;
     readonly opened: boolean;
     readonly vendorId: number;
     readonly productId: number;
@@ -72,8 +72,8 @@ export class WebHID implements Transport {
      */
     public async read(): Promise<DataView> {
         const dataView = await new Promise<DataView>(resolve => {
-            this.device.oninputreport = (event: HIDInputReportEvent) => {
-                resolve(event.data);
+            this.device.oninputreport = function (this: HIDDevice, ev: HIDInputReportEvent) {
+                resolve(ev.data);
             };
         });
 
