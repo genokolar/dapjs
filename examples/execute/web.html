@@ -106,10 +106,10 @@
             try {
                 const dataEl = document.getElementById("data");
                 const resultsEl = document.getElementById("results");
-                const device = await navigator.usb.requestDevice({
-                    filters: [{vendorId: 0xD28}]
+                const devices = await navigator.hid.requestDevice({
+                    filters: [{ vendorId: 0x1209, usagePage: 0xff00, usage: 0x0002 }]
                 });
-                const transport = new DAPjs.WebUSB(device);
+                const transport = new DAPJS.WebHID(devices[0]);
                 const hash = await deviceHash(transport, data.value);
                 resultsEl.innerHTML = hash;
             } catch (error) {
