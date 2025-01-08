@@ -28,7 +28,7 @@
         const count = 16;
 
         const readRegisters = async (device, count) => {
-            const transport = new DAPjs.WebUSB(device);
+            const transport = new DAPJS.WebHID(devices);
             const processor = new DAPjs.CortexM(transport);
 
             await processor.connect();
@@ -45,10 +45,11 @@
         };
 
         document.getElementById("read").onclick = async () => {
-            const device = await navigator.usb.requestDevice({
-                filters: [{vendorId: 0xD28}]
+            const devices = await navigator.hid.requestDevice({
+                filters: [{ vendorId: 0x1209, usagePage: 0xff00, usage: 0x0002 }]
             });
-            const values = await readRegisters(device, count);
+
+            const values = await readRegisters(devices[0], count);
             values.forEach((value, index) => {
                 const registerEl = document.getElementById(`r${index}`);
                 registerEl.innerHTML = `Register ${index}: ${value}`;
