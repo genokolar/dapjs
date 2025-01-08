@@ -127,13 +127,13 @@
             setTransfer();
 
             try {
-                const device = await navigator.hid.requestDevice({
+                const devices = await navigator.hid.requestDevice({
                     filters: [{vendorId: 0x1209, usagePage: 0xff00, usage: 0x0002}]
                 });
-                device.oninputreport = event => {
+                devices[0].oninputreport = event => {
                     console.log(event.data);
                 }
-                await update(device[0]);
+                await update(devices[0]);
             } catch (error) {
                 statusEl.style.visibility = "hidden";
                 setStatus(error);
