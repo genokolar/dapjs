@@ -68,6 +68,8 @@ export class WebHID implements Transport {
      * @returns Promise
      */
     public async open(): Promise<void> {
+        // eslint-disable-next-line no-console
+        console.log('Opening device:', this.device);
         await this.device.open();
     }
 
@@ -76,6 +78,8 @@ export class WebHID implements Transport {
      * @returns Promise
      */
     public async close(): Promise<void> {
+        // eslint-disable-next-line no-console
+        console.log('Closeing device:', this.device);
         await this.device.close();
     }
 

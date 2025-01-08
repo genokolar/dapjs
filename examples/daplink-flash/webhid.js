@@ -15,8 +15,10 @@ const requestDevice = async () => {
 (async () => {
     try {
         const program = await common.getFile();
-        const device = await requestDevice();
-        const transport = new DAPJS.WebHID(device);
+        const devices = await navigator.hid.requestDevice({
+            filters: [{vendorId: 0x1209, usagePage: 0xff00, usage: 0x0002}]
+        });
+        const transport = new DAPJS.WebHID(devices[0]);
         await common.flash(transport, program);
     } catch (error) {
         console.error(error.message || error);
