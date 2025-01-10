@@ -161,12 +161,17 @@ export class DAPLink extends CmsisDAP {
      * @throws 若刷写过程中出现错误，则抛出异常
      */
     public async flash(buffer: BufferSource, pageSize: number = DEFAULT_PAGE_SIZE): Promise<void> {
+        /**
+         * 判断传入的参数是否为 ArrayBufferView 类型
+         *
+         * @param source 待判断的参数，可以是 ArrayBuffer 或 ArrayBufferView 类型
+         * @returns 如果参数是 ArrayBufferView 类型，则返回 true；否则返回 false
+         */
         const isView = (source: ArrayBuffer | ArrayBufferView): source is ArrayBufferView => {
             return (source as ArrayBufferView).buffer !== undefined;
         };
 
         const arrayBuffer = isView(buffer) ? buffer.buffer : buffer;
-        const streamType = this.isBufferBinary(arrayBuffer) ? 0 : 1;
 
         try {
             await this.writeBuffer(arrayBuffer, pageSize);
