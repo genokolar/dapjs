@@ -174,9 +174,9 @@ export class CmsisDAP extends EventEmitter implements Proxy {
             await this.transport.write(array);
             const response = await this.transport.read();
 
-            // if (response.getUint8(0) !== command) {
-            //    throw new Error(`Bad response for ${command} -> ${response.getUint8(0)}`);
-            // }
+            if (response.getUint8(0) !== command) {
+                throw new Error(`Bad response for ${command} -> ${response.getUint8(0)}`);
+            }
 
             switch (command) {
                 case DAPCommand.DAP_DISCONNECT:
@@ -255,6 +255,14 @@ export class CmsisDAP extends EventEmitter implements Proxy {
      * https://www.keil.com/pack/doc/CMSIS/DAP/html/group__DAP__SWJ__Sequence.html
      * @param sequence The sequence to send
      * @returns Promise
+     */
+    /**
+     * 发送SWJ序列。
+     *
+     * @param sequence 要发送的SWJ序列。
+     * @param bitLength SWJ序列的位数，默认为sequence.byteLength * 8。
+     * @returns 返回一个Promise，无返回值。
+     * @throws 如果发送失败，则抛出异常。
      */
     public async swjSequence(sequence: BufferSource, bitLength: number = sequence.byteLength * 8): Promise<void> {
         const data = this.bufferSourceToUint8Array(bitLength, sequence);

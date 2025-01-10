@@ -41,6 +41,13 @@ export declare class WebHID implements Transport {
      * @param reportId Report ID to use
      */
     constructor(device: HIDDevice);
+    /**
+     * 扩展缓冲区
+     *
+     * @param data 缓冲区数据源
+     * @param packetSize 数据包大小
+     * @returns 扩展后的缓冲区
+     */
     private extendBuffer;
     /**
      * Open device

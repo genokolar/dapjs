@@ -49,6 +49,13 @@ export class WebHID implements Transport {
     constructor(private device: HIDDevice) {
     }
 
+    /**
+     * 扩展缓冲区
+     *
+     * @param data 缓冲区数据源
+     * @param packetSize 数据包大小
+     * @returns 扩展后的缓冲区
+     */
     private extendBuffer(data: BufferSource, packetSize: number): BufferSource {
         function isView(source: ArrayBuffer | ArrayBufferView): source is ArrayBufferView {
             return (source as ArrayBufferView).buffer !== undefined;
