@@ -102,28 +102,6 @@ export class DAPLink extends CmsisDAP {
     }
 
     /**
-     * 判断传入的 ArrayBuffer 是否为二进制数据
-     *
-     * @param buffer ArrayBuffer 对象
-     * @returns 如果 ArrayBuffer 是二进制数据，则返回 true；否则返回 false
-
-    private isBufferBinary(buffer: ArrayBuffer): boolean {
-        const numberArray = Array.prototype.slice.call(new Uint16Array(buffer, 0, 50));
-        const bufferString: string = String.fromCharCode.apply(null, numberArray);
-
-        for (let i = 0; i < bufferString.length; i++) {
-            const charCode = bufferString.charCodeAt(i);
-            // 65533 is a code for unknown character
-            // 0-8 are codes for control characters
-            if (charCode === 65533 || charCode <= 8) {
-                return true;
-            }
-        }
-        return false;
-    }
-     */
-    
-    /**
      * 异步写入缓冲区数据到设备
      *
      * @param buffer 要写入的缓冲区数据
