@@ -102,7 +102,10 @@ export class DAPLink extends CmsisDAP {
     }
 
     /**
-     * Detect if buffer contains text or binary data
+     * 判断传入的 ArrayBuffer 是否为二进制数据
+     *
+     * @param buffer ArrayBuffer 对象
+     * @returns 如果 ArrayBuffer 是二进制数据，则返回 true；否则返回 false
      */
     private isBufferBinary(buffer: ArrayBuffer): boolean {
         const numberArray = Array.prototype.slice.call(new Uint16Array(buffer, 0, 50));
@@ -119,6 +122,15 @@ export class DAPLink extends CmsisDAP {
         return false;
     }
 
+    /**
+     * 异步写入缓冲区数据到设备
+     *
+     * @param buffer 要写入的缓冲区数据
+     * @param pageSize 每次写入的数据块大小
+     * @param offset 写入数据的起始偏移量，默认为0
+     * @returns 返回一个Promise，无返回值
+     * @throws 如果写入过程中发生错误，则抛出异常
+     */
     private async writeBuffer(buffer: ArrayBuffer, pageSize: number, offset: number = 0): Promise<void> {
         const end = Math.min(buffer.byteLength, offset + pageSize);
         const page = buffer.slice(offset, end);
@@ -141,10 +153,12 @@ export class DAPLink extends CmsisDAP {
     }
 
     /**
-     * Flash the target
-     * @param buffer The image to flash
-     * @param pageSize The page size to use (defaults to 62)
-     * @returns Promise
+     * 异步执行刷写操作
+     *
+     * @param buffer 待刷写的缓冲区，可以为 ArrayBuffer 或 ArrayBufferView 类型
+     * @param pageSize 每页的大小，默认为 DEFAULT_PAGE_SIZE (默认62)
+     * @returns 返回一个 Promise，无返回值
+     * @throws 若刷写过程中出现错误，则抛出异常
      */
     public async flash(buffer: BufferSource, pageSize: number = DEFAULT_PAGE_SIZE): Promise<void> {
         const isView = (source: ArrayBuffer | ArrayBufferView): source is ArrayBufferView => {
@@ -155,23 +169,8 @@ export class DAPLink extends CmsisDAP {
         const streamType = this.isBufferBinary(arrayBuffer) ? 0 : 1;
 
         try {
-            let result = await this.send(DAPLinkFlash.OPEN, new Uint32Array([streamType]));
-
-            // An error occurred
-            if (result.getUint8(1) !== 0) {
-                throw new Error('Flash error');
-            }
-
             await this.writeBuffer(arrayBuffer, pageSize);
             this.emit(DAPLink.EVENT_PROGRESS, 1.0);
-            result = await this.send(DAPLinkFlash.CLOSE);
-
-            // An error occurred
-            if (result.getUint8(1) !== 0) {
-                throw new Error('Flash error');
-            }
-
-            await this.send(DAPLinkFlash.RESET);
         } catch (error) {
             await this.clearAbort();
             throw error;
