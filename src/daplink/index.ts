@@ -106,7 +106,7 @@ export class DAPLink extends CmsisDAP {
      *
      * @param buffer ArrayBuffer 对象
      * @returns 如果 ArrayBuffer 是二进制数据，则返回 true；否则返回 false
-     */
+
     private isBufferBinary(buffer: ArrayBuffer): boolean {
         const numberArray = Array.prototype.slice.call(new Uint16Array(buffer, 0, 50));
         const bufferString: string = String.fromCharCode.apply(null, numberArray);
@@ -121,7 +121,8 @@ export class DAPLink extends CmsisDAP {
         }
         return false;
     }
-
+     */
+    
     /**
      * 异步写入缓冲区数据到设备
      *
