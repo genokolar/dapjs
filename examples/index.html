@@ -84,7 +84,7 @@
         </svg>
     </a>
 
-    <script type="text/javascript" src="../../dist/dap.umd.js"></script>
+    <script type="text/javascript" src="../dist/dap.umd.js"></script>
 
     <script>
         let dropEl = document.getElementById("drop");
@@ -122,7 +122,7 @@
             const reader = new FileReader();
             reader.onloadend = evt => {
                 buffer = evt.target.result;
-                setStatus(`Firmware image: ${file.name}`);
+                setStatus(`固件文件: ${file.name}`);
                 selectEl.style.visibility = "visible";
                 selectReset.style.visibility = "hidden";
             }
@@ -131,7 +131,7 @@
 
         // Choose a device
         const selectDevice = async () => {
-            setStatus("Selecting device...");
+            setStatus("选择烧录设备...");
             setTransfer();
 
             try {
@@ -150,7 +150,7 @@
 
         // reset device
         const resetDevice = async () => {
-            setStatus("Reseting device...");
+            setStatus("选择重启设备...");
             try {
                 const devices = await navigator.hid.requestDevice({
                     filters: [{vendorId: 0x1209, usagePage: 0xff00, usage: 0x0002}]
@@ -178,14 +178,14 @@
 
             try {
                 // Push binary to board
-                setStatus(`Flashing binary file ${buffer.byteLength} words long...`);
+                setStatus(`固件文件共计 ${buffer.byteLength} 字节长度...`);
                 await target.connect();
                 await target.flash(buffer);
 
-                setStatus("Disconnecting...");
+                setStatus("断开连接中...");
                 await target.disconnect();
 
-                setStatus("Flash complete!");
+                setStatus("烧录完成!");
                 setTransfer();
                 fileEl.value = "";
             } catch (error) {
@@ -200,12 +200,12 @@
             const processor = new DAPjs.CortexM(transport);
 
             try {
-                setStatus("Reseting...");
+                setStatus("重启中...");
                 await processor.connect();
                 await processor.softReset();
                 await processor.disconnect();
 
-                setStatus("Reset complete!");
+                setStatus("重启完成!");
             } catch (error) {
                 statusEl.style.visibility = "hidden";
                 setStatus(error);
