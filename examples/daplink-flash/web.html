@@ -196,7 +196,7 @@
         // reset device
         const reset = async device => {
             const transport = new DAPjs.WebHID(device);
-            const target = new DAPjs.CmsisDAP(transport);
+            const target = new DAPjs.DAPLink(transport);
 
             try {
                 setStatus("Reseting...");
