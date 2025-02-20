@@ -174,9 +174,9 @@ export class CmsisDAP extends EventEmitter implements Proxy {
             await this.transport.write(array);
             const response = await this.transport.read();
 
-            if (response.getUint8(0) !== command) {
-                throw new Error(`Bad response for ${command} -> ${response.getUint8(0)}`);
-            }
+            // if (response.getUint8(0) !== command) {
+            //    throw new Error(`Bad response for ${command} -> ${response.getUint8(0)}`);
+            // }
 
             switch (command) {
                 case DAPCommand.DAP_DISCONNECT:
