@@ -41,7 +41,9 @@
         #label { cursor: pointer; }
         #label:hover strong { color: #8bb5ba; }
         #select { position: absolute; left: 0; right: 0; visibility: hidden; }
+        #select2 { position: absolute; left: 0; right: 0; visibility: visible; }
         #button { font-size: 12px; color: inherit; margin: 20px auto; border: 0px; background-color: #1b679c; height: 30px; padding: 0 30px; border-radius: 4px; text-transform: uppercase; cursor: pointer; outline: none; }
+        #button2 { font-size: 12px; color: inherit; margin: 20px auto; border: 0px; background-color: #1b679c; height: 30px; padding: 0 30px; border-radius: 4px; text-transform: uppercase; cursor: pointer; outline: none; }
         #button:hover { background: #2674ab; }
         #status { margin: 20px auto; border: 1px solid #d7ecfb; width: 70%; height: 24px; visibility: hidden; }
         #bar { background: #2674ab; width: 0%; height: 100%; }
@@ -66,6 +68,10 @@
             <button id="button">Select Device</button>
         </div>
 
+        <div id="select2">
+            <button id="button2">Reset Target</button>
+        </div>
+
         <div id="status">
             <div id="bar"></div>
             <div id="transfer"></div>
@@ -85,6 +91,8 @@
         let fileEl = document.getElementById("file");
         let selectEl = document.getElementById("select");
         let buttonEl = document.getElementById("button");
+        let selectReset = document.getElementById("select2");
+        let buttonReset = document.getElementById("button2");
         let labelEl = document.getElementById("label");
         let statusEl = document.getElementById("status");
         let transferEl = document.getElementById("transfer");
@@ -139,6 +147,23 @@
             }
         }
 
+        // reset device
+        const resetDevice = async () => {
+            setStatus("Reseting device...");
+            try {
+                const devices = await navigator.hid.requestDevice({
+                    filters: [{vendorId: 0x1209, usagePage: 0xff00, usage: 0x0002}]
+                });
+                devices[0].oninputreport = event => {
+                    console.log(event.data);
+                }
+                await reset(devices[0]);
+            } catch (error) {
+                statusEl.style.visibility = "hidden";
+                setStatus(error);
+            }
+        }
+
         // Update a device with the firmware image
         const update = async device => {
             if (!buffer) return;
@@ -168,6 +193,24 @@
             }
         }
 
+        // reset device
+        const reset = async device => {
+            const transport = new DAPjs.WebHID(device);
+            const target = new DAPjs.CmsisDAP(transport);
+
+            try {
+                setStatus("Reseting...");
+                await target.connect();
+                await target.reset();
+                await target.disconnect();
+
+                setStatus("Reset complete!");
+            } catch (error) {
+                statusEl.style.visibility = "hidden";
+                setStatus(error);
+            }
+        }
+
         fileEl.addEventListener("change", event => {
             setImage(event.target.files[0]);
         });
@@ -177,6 +220,8 @@
         });
 
         buttonEl.addEventListener("click", selectDevice);
+
+        buttonReset.addEventListener("click", resetDevice);
 
         ["drag", "dragstart", "dragend", "dragover", "dragenter", "dragleave", "drop"].forEach(eventName => {
             dropEl.addEventListener(eventName, event => {
