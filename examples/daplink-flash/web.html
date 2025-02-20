@@ -196,13 +196,13 @@
         // reset device
         const reset = async device => {
             const transport = new DAPjs.WebHID(device);
-            const target = new DAPjs.DAPLink(transport);
+            const processor = new DAPjs.CortexM(transport);
 
             try {
                 setStatus("Reseting...");
-                await target.connect();
-                await target.softReset();
-                await target.disconnect();
+                await processor.connect();
+                await processor.softReset();
+                await processor.disconnect();
 
                 setStatus("Reset complete!");
             } catch (error) {
