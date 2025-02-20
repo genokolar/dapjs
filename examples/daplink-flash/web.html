@@ -201,7 +201,7 @@
             try {
                 setStatus("Reseting...");
                 await target.connect();
-                await target.reset();
+                await target.softReset();
                 await target.disconnect();
 
                 setStatus("Reset complete!");
