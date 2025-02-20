@@ -200,7 +200,9 @@
 
             try {
                 setStatus("Reseting...");
+                await target.connect();
                 await target.reset();
+                await target.disconnect();
 
                 setStatus("Reset complete!");
             } catch (error) {
