@@ -30,22 +30,15 @@ export declare class DAPLink extends CmsisDAP {
      */
     constructor(transport: Transport, mode?: DAPProtocol, clockFrequency?: number);
     /**
-     * 异步写入缓冲区数据到设备
-     *
-     * @param buffer 要写入的缓冲区数据
-     * @param pageSize 每次写入的数据块大小
-     * @param offset 写入数据的起始偏移量，默认为0
-     * @returns 返回一个Promise，无返回值
-     * @throws 如果写入过程中发生错误，则抛出异常
+     * Detect if buffer contains text or binary data
      */
+    private isBufferBinary;
     private writeBuffer;
     /**
-     * 异步执行刷写操作
-     *
-     * @param buffer 待刷写的缓冲区，可以为 ArrayBuffer 或 ArrayBufferView 类型
-     * @param pageSize 每页的大小，默认为 DEFAULT_PAGE_SIZE (默认62)
-     * @returns 返回一个 Promise，无返回值
-     * @throws 若刷写过程中出现错误，则抛出异常
+     * Flash the target
+     * @param buffer The image to flash
+     * @param pageSize The page size to use (defaults to 62)
+     * @returns Promise
      */
     flash(buffer: BufferSource, pageSize?: number): Promise<void>;
     /**

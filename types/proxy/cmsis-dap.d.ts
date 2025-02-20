@@ -65,14 +65,6 @@ export declare class CmsisDAP extends EventEmitter implements Proxy {
      * @param sequence The sequence to send
      * @returns Promise
      */
-    /**
-     * 发送SWJ序列。
-     *
-     * @param sequence 要发送的SWJ序列。
-     * @param bitLength SWJ序列的位数，默认为sequence.byteLength * 8。
-     * @returns 返回一个Promise，无返回值。
-     * @throws 如果发送失败，则抛出异常。
-     */
     swjSequence(sequence: BufferSource, bitLength?: number): Promise<void>;
     /**
      * Send an SWJ Clock value

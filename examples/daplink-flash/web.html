@@ -124,6 +124,7 @@
                 buffer = evt.target.result;
                 setStatus(`Firmware image: ${file.name}`);
                 selectEl.style.visibility = "visible";
+                selectReset.style.visibility = "hidden";
             }
             reader.readAsArrayBuffer(file);
         }
